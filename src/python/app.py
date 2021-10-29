@@ -22,7 +22,6 @@ def getLatLong():
         {'lat': geocoding.getLatLong()[0][0], 'long': geocoding.getLatLong()[0][1]})
 
 
-
 @app.route('/flight_path', methods=['GET'])
 def getCalculation():
     data = tle.getTLE()["ISS (ZARYA)"]
