@@ -29,23 +29,22 @@ const AddressForm = () => {
 
 return (
     <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="text">Address</label>
-      <input
-        id="address"
-        name="address"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.address}
-      />
-      <button type="submit">Submit</button>
-      <p>&nbsp;</p>
-      <p>{formik.values.address} is at {formik.values.latLong}.</p>
+        <label htmlFor="text">Address</label>
+        <input
+            id="address"
+            name="address"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.address}
+        />
+        <button type="submit">Submit</button>
+        <p>{formik.values.address} is at {formik.values.latLong}.</p>
     </form>
-  );
+    );
 };
 
 function Location() {
-  return <AddressForm />;
+    return <AddressForm />;
 }
 
 const rootElement = document.getElementById("root");
