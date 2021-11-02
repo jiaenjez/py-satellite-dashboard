@@ -1,9 +1,10 @@
 import flask
 import requests
+from flask import Flask, request
 from skyfield.toposlib import wgs84
 from src.python import tle, geocoding, satnogs, calculation
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 
 
 @app.route('/response', methods=['GET'])
@@ -16,10 +17,13 @@ def getPayload():
     return flask.jsonify(tle.loadTLE())
 
 
-@app.route('/location', methods=['GET'])
+@app.route('/location', methods=['POST'])
 def getLatLong():
-    return flask.jsonify(
-        {'lat': geocoding.getLatLong()[0][0], 'long': geocoding.getLatLong()[0][1]})
+    address = request.get_json().get('address')
+    if address.lower() == "uc irvine":
+        return flask.jsonify(geocoding.getLatLong()[0])
+    else:
+        return flask.jsonify("we don't have back-end for this yet")
 
 
 @app.route('/flight_path', methods=['GET'])
