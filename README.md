@@ -2,6 +2,36 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Make sure you have `python3`, `pip3`, `brew`, `node`, `npm`, and `nvm` installed
+
+## Installing prerequisite
+
+Double check `Python3` and `Pip3` are installed
+
+[Homebrew installation](https://brew.sh/)
+
+`brew install node@14`
+
+`brew install npm@7`
+
+`brew install nvm`
+
+## Run React App
+
+`git clone https://github.com/UCI-CubeSat/py-satellite-dashboard/`
+
+`cd py-satellite-dashboard`
+
+`npm install`
+
+make sure Python requirements are all installed correctly
+
+with PyCharm, open project and `yarn start` in terminal
+
+navigate to `src/python/app.py` and **run app.py**
+
+in browser, go to: http://localhost:3000/
+
 ## Available Scripts
 
 In the project directory, you can run:
