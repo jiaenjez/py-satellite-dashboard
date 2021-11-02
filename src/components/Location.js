@@ -21,7 +21,7 @@ const AddressForm = () => {
         })
             .then(res => res.json()).then(data => {
                 formik.setFieldValue("latLong", JSON.stringify(data))
-                console.log(JSON.stringify(formik.values.latLong))
+                console.log(formik.values.latLong)
             });
         alert(JSON.stringify(formik.values.latLong, null, 2));
     }
