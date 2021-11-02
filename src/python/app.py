@@ -1,5 +1,3 @@
-import urllib
-
 import flask
 import requests
 from flask import Flask, request

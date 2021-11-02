@@ -1,6 +1,7 @@
 import urllib
 import requests
 import geocoder
+
 # consider using this library instead
 # https://geocoder.readthedocs.io/
 # https://github.com/DenisCarriere/geocoder
@@ -11,9 +12,10 @@ BING_BASE_URL = "http://dev.virtualearth.net/REST/v1/Locations/US/{adminDistrict
                 "maxResults}&key={BingMapsAPIKey}"
 
 
-def getLatLong(addressLine = "University%20of%20California,%20Irvine", city = "Irvine", adminDistrict = "CA", postalCode = "92697", country="US"):
+def getLatLong(addressLine="University%20of%20California,%20Irvine", city="Irvine", adminDistrict="CA",
+               postalCode="92697", country="US"):
     returnFormat = "json"
-    url = f'http://dev.virtualearth.net/REST/v1/Locations/' \
+    url = f'https://dev.virtualearth.net/REST/v1/Locations/' \
           f'{urllib.parse.quote_plus(country)}' \
           f'/{urllib.parse.quote_plus(adminDistrict)}' \
           f'/{urllib.parse.quote_plus(postalCode)}' \

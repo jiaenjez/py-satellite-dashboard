@@ -51,7 +51,7 @@ return (
             value={formik.values.city}
         />
 
-        <label htmlFor="text">postalCode</label>
+        <label htmlFor="text">Postal Code</label>
         <input
             id="postalCode"
             name="postalCode"
@@ -69,7 +69,7 @@ return (
             value={formik.values.country}
         />
 
-        <label htmlFor="text">adminDistrict</label>
+        <label htmlFor="text">State</label>
         <input
             id="adminDistrict"
             name="adminDistrict"
