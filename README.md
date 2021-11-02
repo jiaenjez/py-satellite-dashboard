@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Make sure you have `python3`, `pip3`, `brew`, `node`, `npm`, and `nvm` installed
+Make sure you have `python3`, `pip3`, `brew`, `yarn`, `node`, `npm`, and `nvm` installed
 
 ## Installing prerequisite
 
@@ -12,9 +12,11 @@ Double check `Python3` and `Pip3` are installed
 
 `brew install node@14`
 
-`brew install npm@7`
+`brew install npm`
 
 `brew install nvm`
+
+`brew install yarn`
 
 ## Run React App
 
@@ -30,7 +32,7 @@ with PyCharm, open project and `yarn start` in terminal
 
 navigate to `src/python/app.py` and **run app.py**
 
-in browser, go to: http://localhost:3000/
+in browser, go to: http://127.0.0.1:3000/
 
 ## Available Scripts
 
