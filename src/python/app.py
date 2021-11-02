@@ -19,11 +19,13 @@ def getPayload():
 
 @app.route('/location', methods=['POST'])
 def getLatLong():
-    address = request.get_json().get('address')
-    if address.lower() == "uc irvine":
-        return flask.jsonify(geocoding.getLatLong()[0])
-    else:
-        return flask.jsonify("we don't have back-end for this yet")
+    addressLine = request.get_json().get('address').replace(" ", "%20")
+    city = request.get_json().get('city')
+    postalCode = request.get_json().get('postalCode')
+    country = request.get_json().get('country')
+    adminDistrict = request.get_json().get('adminDistrict')
+
+    return flask.jsonify(geocoding.getLatLong(addressLine, city, adminDistrict, postalCode, country)[0])
 
 
 @app.route('/flight_path', methods=['GET'])

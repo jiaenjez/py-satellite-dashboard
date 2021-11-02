@@ -10,15 +10,7 @@ BING_BASE_URL = "http://dev.virtualearth.net/REST/v1/Locations/US/{adminDistrict
                 "maxResults}&key={BingMapsAPIKey}"
 
 
-def getLatLong():
-    # TODO
-    # These variable should change base on front-end input
-    country = "US"
-    adminDistrict = "CA"
-    postalCode = "92697"
-    city = "Irvine"
-    addressLine = "University%20of%20California,%20Irvine"
-    # END of TODO
+def getLatLong(addressLine = "University%20of%20California,%20Irvine", city = "Irvine", adminDistrict = "CA", postalCode = "92697", country="US"):
     returnFormat = "json"
     url = f'http://dev.virtualearth.net/REST/v1/Locations/' \
           f'{country}/{adminDistrict}/{postalCode}/{city}/{addressLine}?' \
