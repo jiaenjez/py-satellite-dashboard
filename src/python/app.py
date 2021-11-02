@@ -1,3 +1,5 @@
+import urllib
+
 import flask
 import requests
 from flask import Flask, request
@@ -19,7 +21,7 @@ def getPayload():
 
 @app.route('/location', methods=['POST'])
 def getLatLong():
-    addressLine = request.get_json().get('address').replace(" ", "%20")
+    addressLine = request.get_json().get('address')
     city = request.get_json().get('city')
     postalCode = request.get_json().get('postalCode')
     country = request.get_json().get('country')
@@ -49,5 +51,4 @@ if __name__ == '__main__':
     print("logging: Running on http://127.0.0.1:5000/location")
     print("logging: Running on http://127.0.0.1:5000/flight_path")
     print("logging: Running on http://127.0.0.1:5000/flight_horizon")
-    # print("logging: Running on http://127.0.0.1:5000/search")
     app.run(debug=True)

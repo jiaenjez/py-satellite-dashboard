@@ -1,3 +1,4 @@
+import urllib
 import requests
 import geocoder
 # consider using this library instead
@@ -13,8 +14,13 @@ BING_BASE_URL = "http://dev.virtualearth.net/REST/v1/Locations/US/{adminDistrict
 def getLatLong(addressLine = "University%20of%20California,%20Irvine", city = "Irvine", adminDistrict = "CA", postalCode = "92697", country="US"):
     returnFormat = "json"
     url = f'http://dev.virtualearth.net/REST/v1/Locations/' \
-          f'{country}/{adminDistrict}/{postalCode}/{city}/{addressLine}?' \
+          f'{urllib.parse.quote_plus(country)}' \
+          f'/{urllib.parse.quote_plus(adminDistrict)}' \
+          f'/{urllib.parse.quote_plus(postalCode)}' \
+          f'/{urllib.parse.quote_plus(city)}' \
+          f'/{urllib.parse.quote_plus(addressLine)}?' \
           f'o={returnFormat}&key={BING_API_KEY}'
+    print("logging: Request URL: " + url)
     response = requests.get(url).json()
 
     return response["resourceSets"][0]["resources"][0]["point"]["coordinates"], response
