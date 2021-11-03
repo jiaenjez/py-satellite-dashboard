@@ -13,7 +13,8 @@ const AddressForm = () => {
             method: 'POST',
             mode: 'cors',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'accept' : 'application/json'
             },
             body: JSON.stringify({
                 address: formik.values.address,
@@ -23,7 +24,7 @@ const AddressForm = () => {
                 adminDistrict: formik.values.adminDistrict
             })
         })
-            .then(res => res.json()).then(data => {
+            .then(response => response.json()).then(data => {
                 formik.setFieldValue("latLong", JSON.stringify(data))
                 console.log(formik.values.latLong)
             });
