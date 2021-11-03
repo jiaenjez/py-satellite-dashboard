@@ -75,6 +75,8 @@ def getSerializedPath(data: dict):
     for k in data.keys():
         if str(type(data[k])) == "<class 'numpy.ndarray'>":
             data[k] = data[k].tolist()
+        else:
+            data[k] = str(data[k])
 
     return data
 
