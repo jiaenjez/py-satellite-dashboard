@@ -96,7 +96,7 @@ def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> list:
     t_utc = start.utc
 
     end = ts.utc(t_utc.year, t_utc.month, t_utc.day, t_utc.hour, t_utc.minute, t_utc.second + duration)
-    condition = {"bare": 0, "marginal": 25.0, "good": 50.0, "excellent": 75.0}
+    condition = {"bare": 1.0, "marginal": 25.0, "good": 50.0, "excellent": 75.0}
     degree = condition["bare"]  # peak is at 90
     t_utc, events = satellite.find_events(receiverLocation, start, end, altitude_degrees=degree)
 
@@ -117,13 +117,13 @@ def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> list:
     elif len(events) == 1:
         events = []
     elif len(events) == 2:  # [0,1], [1,2], [2,0]
-        if events == [0, 1]:
+        if list(events) == [0, 1]:
             events = numpy.append(events, 2)
             t_utc.append(t_utc[-1])
-        elif events == [1, 2]:
+        if list(events) == [1, 2]:
             events = numpy.insert(events, 0, 0)
             t_utc = numpy.insert(t_utc, 0, t_utc[0])
-        elif events == [2, 0]:
+        if list(events) == [2, 0]:
             events = []
             t_utc = []
     else:
@@ -133,7 +133,7 @@ def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> list:
                 events = numpy.insert(events, 0, 0)
                 t_utc.insert(0, t_utc[0])
             # startswith 2 ==> delete
-            elif list(events)[0] == 2:
+            if list(events)[0] == 2:
                 events = numpy.delete(events, 0)
                 t_utc.pop(0)
 
@@ -143,7 +143,7 @@ def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> list:
                 events = numpy.append(events, 2)
                 t_utc.append(t_utc[-1])
             # endswith 0 ==> delete
-            elif list(events)[-1] == 0:
+            if list(events)[-1] == 0:
                 events = numpy.delete(events, -1)
                 t_utc.pop(-1)
 
