@@ -36,7 +36,8 @@ def getCalculation():
 
 @app.route('/flight_horizon', methods=['GET'])
 def getHorizon():
-    data = tle.loadTLE()["ISS (ZARYA)"]
+    # print(tle.loadTLE())
+    data = tle.loadTLE()["0 ATHENOXAT 1"]
     return flask.jsonify(calculation.getSerializedHorizon(calculation.findHorizonTime(data, 3 * 24 * 3600,
                                                                                       wgs84.latlon(33.643831,
                                                                                                    -117.841132,

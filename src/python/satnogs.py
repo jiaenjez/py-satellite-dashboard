@@ -74,4 +74,14 @@ def tleFilter(satelliteList: [dict]) -> [dict]:
     :param satelliteList: List of Satellite information from Satnogs
     :return: List of Satellite's TLE information from Satnogs
     """
-    return [sat for sat in getTLE() if sat["norad_cat_id"] in getNoradID(satelliteList)]
+
+    # sat = getTLE()
+    # result = []
+    # for s in sat.values():
+    #     if s["norad_cat_id"] in getNoradID(satelliteList):
+    #         result.append(s)
+    #
+    # return result
+
+
+    return [sat for sat in getTLE().values() if sat["norad_cat_id"] in getNoradID(satelliteList)]

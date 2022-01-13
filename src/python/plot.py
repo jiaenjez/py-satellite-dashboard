@@ -26,7 +26,7 @@ def getAllSat():
     response = tle.loadTLE()
     for k in response.keys():
         satellites.append(calculation.getPath(response[k], "latlong", DURATION, RESOLUTION))
-
+    print(len(satellites), satellites[0])
     return satellites
 
 
