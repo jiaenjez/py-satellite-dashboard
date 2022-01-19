@@ -83,5 +83,7 @@ def tleFilter(satelliteList: [dict]) -> [dict]:
     #
     # return result
 
-
+    # [{key=tle0: value={everything}}]
+    # [value={everything}]
     return [sat for sat in getTLE().values() if sat["norad_cat_id"] in getNoradID(satelliteList)]
+

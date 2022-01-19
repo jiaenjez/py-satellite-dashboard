@@ -11,8 +11,10 @@ FILE_DIR = FOLDER_PATH + "/tle.txt"
 client = base.Client(('localhost', 11211))
 
 
-def getTLE() -> {dict}:
-    return satnogs.getTLE()
+def getTLE() -> {dict}: # {tle["tle0"]: tle for tle in requests.get(TLE_URL).json()}
+    tleList = satnogs.tleFilter(satnogs.sortMostRecent(satnogs.satelliteFilter(satnogs.getSatellites())))
+    keys = [tle['tle0'] for tle in tleList]
+    return dict(zip(keys, tleList))
 
 
 def saveTLE() -> {dict}:
