@@ -4,11 +4,15 @@ import './index.css';
 import Location from './components/Location'
 import Map from './components/Map'
 import reportWebVitals from './reportWebVitals';
+import Time from "./components/time";
+import Logo from "./components/logo";
 
 ReactDOM.render(
   <React.StrictMode>
     <Location />
       <Map />
+      <Time />
+      <Logo />
   </React.StrictMode>,
   document.getElementById('root')
 );
