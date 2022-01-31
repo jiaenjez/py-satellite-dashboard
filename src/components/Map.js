@@ -19,9 +19,9 @@ const MyComponent = () => (
     >
       { /* add more Child components: markers, info windows*/
         <Marker
-          position={{lat: 33.6405, lng: -117.8443}}
+          position={ucIrvine}
         />
-      }
+      },
       <></>
     </GoogleMap>
   </LoadScript>

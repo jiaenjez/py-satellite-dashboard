@@ -2,17 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Location from './components/Location';
-import Map from './components/Map';
-import Time from './components/Time';
-import Logo from './components/Logo';
+import App from './App';
 
 ReactDOM.render(
     <React.StrictMode>
-      <Location />
-      <Map />
-      <Time />
-      <Logo />
+      <App />
     </React.StrictMode>,
     document.getElementById('root'),
 );
