@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Location from './components/Location'
-import Map from './components/Map'
 import reportWebVitals from './reportWebVitals';
-import Time from "./components/time";
-import Logo from "./components/logo";
+import Location from './components/Location';
+import Map from './components/Map';
+import Time from './components/Time';
+import Logo from './components/Logo';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Location />
+    <React.StrictMode>
+      <Location />
       <Map />
       <Time />
       <Logo />
-  </React.StrictMode>,
-  document.getElementById('root')
+    </React.StrictMode>,
+    document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

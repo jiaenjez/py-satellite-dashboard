@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 // this is just a example, we should really consider using https://formik.org/docs/overview
 
-function App() {
+const App = () => {
   const [location, setLocation] = useState(0);
-  const [addr, setAddr] = useState("")
+  const [addr, setAddr] = useState('');
 
-  const handleChange = event => {
-    setAddr(event.target.value)
-    console.log(event.target.value)  // right click -> inspect -> console
-  }
+  const handleChange = (event) => {
+    setAddr(event.target.value);
+    console.log(event.target.value); // right click -> inspect -> console
+  };
 
   useEffect(() => {
-    fetch('/location').then(res => res.json()).then(data => {
-      setLocation([data.lat, ", " , data.long]);
+    fetch('/location').then((res) => res.json()).then((data) => {
+      setLocation([data.lat, ', ', data.long]);
     });
   }, []);
 
@@ -29,6 +29,7 @@ function App() {
 
         <form>
           <label>
+            {/* eslint-disable-next-line max-len */}
             Address: <input type="text" value={addr} onChange={handleChange} size="60"/>
           </label>
         </form>
@@ -37,6 +38,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;
