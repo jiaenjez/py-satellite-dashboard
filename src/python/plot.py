@@ -8,6 +8,8 @@ from skyfield.toposlib import wgs84
 
 matplotlib.use("TkAgg")
 
+# add new comment
+
 IMAGE_URL = "https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg"
 IRVINE = wgs84.latlon(33.643831, -117.841132, elevation_m=17)
 DURATION = 2.0 * 3600
