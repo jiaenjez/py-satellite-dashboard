@@ -1,8 +1,6 @@
-// eslint-disable-next-line no-unused-vars
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {useFormik} from 'formik';
-import './styles.css';
 
 
 const Location = () => {
