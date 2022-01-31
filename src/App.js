@@ -9,10 +9,10 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <Location />
-        <Map />
         <Time />
         <Logo />
+        <Location />
+        <Map />
       </header>
     </div>
   );
