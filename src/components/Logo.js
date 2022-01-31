@@ -1,6 +1,7 @@
 import React from 'react';
-import ucilogo from './cubesat.png';
+import logoImgFile from './cubesat.png';
 
-const Logo = () => <img src={ucilogo} alt="Logo"/>;
+const Logo = () =>
+  <img src={logoImgFile} alt="Logo" height={'100px'} width={'100px'}/>;
 
 export default Logo;
