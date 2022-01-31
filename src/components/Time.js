@@ -1,34 +1,23 @@
 import {useState, useEffect} from 'react';
 import React from 'react';
+import moment from 'moment';
 
-function Time() {
+const Time = () => {
   const [time, setTime] = useState('');
 
-  function formatTime(val) {
-    if (val < 10) {
-      return 0;
-    } else {
-      return '';
-    }
-  }
-
   useEffect(() => {
-    const timerID = setInterval(
-        () => tick(), 1000);
+    const tick = () => {
+      const timeStamp = moment().format('MMMM Do YYYY, h:mm:ss a');
+
+      setTime(timeStamp);
+    };
+    const timerRefresh = setInterval(
+        () => tick(), 500);
 
     return function cleanup() {
-      clearInterval(timerID);
+      clearInterval(timerRefresh);
     };
   });
-
-  function tick() {
-    const d = new Date();
-    const h = d.getHours();
-    const m = d.getMinutes();
-    const s = d.getSeconds();
-
-    setTime(formatTime(h) + h + ':' + formatTime(m) + m + ':' + formatTime(s) + s);
-  }
 
   return (
     <div className="clock">
@@ -37,7 +26,7 @@ function Time() {
       </div>
     </div>
   );
-}
+};
 
 export default Time;
 
