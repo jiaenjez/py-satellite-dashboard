@@ -15,22 +15,22 @@ const Location = () => {
           mode: 'cors',
           headers: {
             'Content-Type': 'application/json',
-            'accept': 'application/json',
+            'accept': 'application/json'
           },
           body: JSON.stringify({
             address: formik.values.address,
             city: formik.values.city,
             postalCode: formik.values.postalCode,
             country: formik.values.country,
-            adminDistrict: formik.values.adminDistrict,
-          }),
+            adminDistrict: formik.values.adminDistrict
+          })
         })
             .then((response) => response.json()).then((data) => {
               formik.setFieldValue('latLong', JSON.stringify(data));
               console.log(formik.values.latLong);
             });
         alert(JSON.stringify(formik.values.latLong, null, 2));
-      },
+      }
     });
 
     return (
