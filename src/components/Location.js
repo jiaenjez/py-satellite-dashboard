@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {useFormik} from 'formik';
 
 
@@ -97,6 +96,4 @@ const Location = () => {
   );
 };
 
-const rootElement = document.getElementById('root');
-ReactDOM.render(<Location />, rootElement);
 export default Location;
