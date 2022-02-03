@@ -34,20 +34,22 @@ def getCalculation():
     return flask.jsonify(calculation.getSerializedPath(calculation.getPath(data, "latlong")))
 
 
-@app.route('/flight_horizon', methods=['GET'])
+@app.route('/flight_horizon', methods=['POST'])
 def getHorizon():
-    # print(tle.loadTLE())
-    data = tle.loadTLE()["0 ATHENOXAT 1"]
-    return flask.jsonify(calculation.getSerializedHorizon(calculation.findHorizonTime(data, 3 * 24 * 3600,
-                                                                                      wgs84.latlon(33.643831,
-                                                                                                   -117.841132,
-                                                                                                   elevation_m=17))))
+    data = tle.loadTLE()
+    selectedSatellite = data[list(data.keys())[0]]
+    rxLatLng = request.get_json().get('rxLatLng').split(',')
+    rxLat = float(rxLatLng[0])
+    rxLong = float(rxLatLng[1])
+    rxElevation = 0
+    predictionDuration = 3 * 24 * 3600
+
+    predictedPass = calculation.getSerializedHorizon(calculation.findHorizonTime(selectedSatellite, predictionDuration,
+                                                                                 wgs84.latlon(rxLat, rxLong,
+                                                                                              elevation_m=rxElevation)))
+
+    return flask.jsonify(predictedPass)
 
 
 if __name__ == '__main__':
-    print("logging: Running on http://127.0.0.1:5000/response")
-    print("logging: Running on http://127.0.0.1:5000/tle")
-    print("logging: Running on http://127.0.0.1:5000/location")
-    print("logging: Running on http://127.0.0.1:5000/flight_path")
-    print("logging: Running on http://127.0.0.1:5000/flight_horizon")
     app.run(debug=True)
