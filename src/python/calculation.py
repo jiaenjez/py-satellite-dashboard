@@ -174,6 +174,7 @@ def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> list:
     #         print(", ", end="")
     # END DEBUG
 
+    json = {}
     intervals = []  # [0 1 1 2 0 1 2 0 1 2 0 1 2 0 1 1 2]
     for index in range(0, len(events), 3):
         try:
@@ -190,7 +191,9 @@ def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> list:
             diff = numpy.float64((datetime_set - datetime_rise).total_seconds())
             t0_sec = t0.utc.second
             t1_sec = t0_sec + diff
-            intervals.append(ts.utc(t0.utc.year, t0.utc.month, t0.utc.day, t0.utc.hour, t0.utc.minute,
-                                    numpy.arange(t0_sec, t1_sec, 60)))
+            value = ts.utc(t0.utc.year, t0.utc.month, t0.utc.day, t0.utc.hour, t0.utc.minute,
+                                    numpy.arange(t0_sec, t1_sec, 60))
+            intervals.append(value)
+            json[str(datetime_peak)] = str(value)
 
-    return intervals
+    return intervals, json

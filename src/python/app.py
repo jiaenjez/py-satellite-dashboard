@@ -44,9 +44,9 @@ def getHorizon():
     rxElevation = 0
     predictionDuration = 3 * 24 * 3600
 
-    predictedPass = calculation.getSerializedHorizon(calculation.findHorizonTime(selectedSatellite, predictionDuration,
-                                                                                 wgs84.latlon(rxLat, rxLong,
-                                                                                              elevation_m=rxElevation)))
+    predictedPass = calculation.findHorizonTime(selectedSatellite, predictionDuration,
+                                                wgs84.latlon(rxLat, rxLong,
+                                                             elevation_m=rxElevation))[1]
 
     return flask.jsonify(predictedPass)
 
