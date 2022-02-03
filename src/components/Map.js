@@ -11,8 +11,8 @@ const _ = require('lodash');
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const Map = () => {
-  const [marker, setMarker] = useState('');
-  const [info, setInfo] = useState('');
+  const [cursorLatLng, setCursorLatLng] = useState('');
+  const [upcomingPass, setUpcomingPass] = useState({});
   const defaultLocation = {lat: 33.6405, lng: -117.8443};
 
   const EmbeddedMap = compose(
@@ -29,7 +29,7 @@ const Map = () => {
       defaultZoom={7}
       defaultCenter={defaultLocation}
       onClick={(mouseEvent) => {
-        setMarker(`${mouseEvent.latLng.lat()},${mouseEvent.latLng.lng()}`);
+        setCursorLatLng(`${mouseEvent.latLng.lat()},${mouseEvent.latLng.lng()}`);
         fetch('/flight_horizon', {
           method: 'POST',
           mode: 'cors',
@@ -37,22 +37,27 @@ const Map = () => {
             'Content-Type': 'application/json',
             'accept': 'application/json'
           },
-          body: JSON.stringify({rxLatLng: marker})
+          body: JSON.stringify({rxLatLng: cursorLatLng})
         }).then((response) => response.json()).then((data) => {
           alert('Request Success');
-          setInfo(JSON.stringify(data));
+          setUpcomingPass(data);
         });
       }}
     >
-      {(<Marker position={{lat: marker.lat, lng: marker.lng}} />
+      {(<Marker position={{lat: cursorLatLng.lat, lng: cursorLatLng.lng}} />
       )}
     </GoogleMap>
   ));
 
   return <div className="Map">
     <EmbeddedMap />
-    <p className="Marker">Cursor location: {marker}</p>
-    <p className="Marker">Upcoming pass: {info}</p>
+    <p className="Marker">Cursor location: {cursorLatLng}</p>
+    <p className="Pass">Upcoming pass: </p>
+    <ol>
+      {_.map(upcomingPass, (k, v) => (
+        <li>{v}: {k}</li>
+      ))}
+    </ol>
   </div>;
 };
 
