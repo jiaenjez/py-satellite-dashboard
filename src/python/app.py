@@ -38,9 +38,9 @@ def getCalculation():
 def getHorizon():
     data = tle.loadTLE()
     selectedSatellite = data['0 AMICALSAT']
-    rxLatLng = request.get_json().get('rxLatLng').split(',')
-    rxLat = float(rxLatLng[0])
-    rxLong = float(rxLatLng[1])
+    rxLatLng = request.get_json().get('rxLatLng')
+    rxLat = rxLatLng['lat']
+    rxLong = rxLatLng['lng']
     rxElevation = 0
     predictionDuration = 1 * 24 * 3600
 

@@ -80,7 +80,7 @@ def getSerializedPath(data: dict):
     return data
 
 
-def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> list:
+def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> json:
     satellite = EarthSatellite(data["tle1"], data["tle2"], data["tle0"], load.timescale())
     ts = load.timescale()
     start = load.timescale().now()

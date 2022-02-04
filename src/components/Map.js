@@ -11,9 +11,9 @@ const _ = require('lodash');
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const Map = () => {
-  const [cursorLatLng, setCursorLatLng] = useState('');
+  const [cursorLatLng, setCursorLatLng] = useState({lat: 33.6405,
+    lng: -117.8443});
   const [upcomingPass, setUpcomingPass] = useState({});
-  const defaultLocation = {lat: 33.6405, lng: -117.8443};
 
   const EmbeddedMap = compose(
       withProps({
@@ -24,10 +24,10 @@ const Map = () => {
       }),
       withScriptjs,
       withGoogleMap
-  )((props) => (
+  )(() => (
     <GoogleMap
       defaultZoom={7}
-      defaultCenter={defaultLocation}
+      defaultCenter={cursorLatLng}
       onClick={(mouseEvent) => {
         setCursorLatLng(`${mouseEvent.latLng.lat()},${mouseEvent.latLng.lng()}`);
         fetch('/flight_horizon', {
@@ -44,14 +44,14 @@ const Map = () => {
         });
       }}
     >
-      {(<Marker position={{lat: cursorLatLng.lat, lng: cursorLatLng.lng}} />
+      {(<Marker position={cursorLatLng} />
       )}
     </GoogleMap>
   ));
 
   return <div className="Map">
     <EmbeddedMap />
-    <p className="Marker">Cursor location: {cursorLatLng}</p>
+    <p className="Marker">Cursor location: {`Latitude: ${cursorLatLng.lat} Longitude: ${cursorLatLng.lng}`}</p>
     <p className="Pass">Upcoming pass: </p>
     <ol>
       {_.map(upcomingPass, (k, v) => (
