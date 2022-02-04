@@ -4,10 +4,9 @@ import {compose, withProps} from 'recompose';
 import {
   withScriptjs, withGoogleMap, GoogleMap, Marker
 } from 'react-google-maps';
-// import {getPrediction, formatPrediction} from './Utils';
+import _ from 'lodash';
+import {getPrediction, passPrediction} from './Utils';
 
-
-const _ = require('lodash');
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 const Map = () => {
@@ -29,19 +28,10 @@ const Map = () => {
       defaultZoom={7}
       defaultCenter={cursorLatLng}
       onClick={(mouseEvent) => {
-        setCursorLatLng(`${mouseEvent.latLng.lat()},${mouseEvent.latLng.lng()}`);
-        fetch('/flight_horizon', {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-            'accept': 'application/json'
-          },
-          body: JSON.stringify({rxLatLng: cursorLatLng})
-        }).then((response) => response.json()).then((data) => {
-          alert('Request Success');
-          setUpcomingPass(data);
-        });
+        setCursorLatLng({lat: mouseEvent.latLng.lat(),
+          lng: mouseEvent.latLng.lng()});
+        getPrediction(cursorLatLng);
+        setUpcomingPass(passPrediction);
       }}
     >
       {(<Marker position={cursorLatLng} />
