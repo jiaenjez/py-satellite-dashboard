@@ -2,7 +2,7 @@ import React from 'react';
 import Time from './components/Time';
 import Logo from './components/Logo';
 import Map from './components/Map';
-import Location from './components/Location';
+// import Location from './components/Location';
 import './App.css';
 
 const App = () => {
@@ -12,7 +12,7 @@ const App = () => {
         <Time />
         <Logo />
         <Map />
-        <Location />
+        {/* <Location />*/}
       </header>
     </div>
   );

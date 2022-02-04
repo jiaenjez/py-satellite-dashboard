@@ -7,7 +7,19 @@ import {
 import _ from 'lodash';
 import {getAvailableSatellite, getPrediction} from './Utils';
 import Select from '@mui/material/Select';
-import {FormControl, InputLabel, MenuItem} from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper
+} from '@mui/material';
+import moment from "moment";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -67,6 +79,7 @@ const Map = () => {
 
   return <div className="Map">
     <EmbeddedMap />
+
     <FormControl sx={{m: 1, minWidth: 100}}>
       <InputLabel id="demo-simple-select-label" >Tracking Satellite</InputLabel>
       <Select
@@ -82,14 +95,45 @@ const Map = () => {
         ))}
       </Select>
     </FormControl>
-    <p className="Marker">Cursor location:
-      {`Latitude: ${cursorLatLng.lat} Longitude: ${cursorLatLng.lng}`}</p>
+
+    <p className="Marker">Cursor location: <br></br>
+      {`Latitude: ${cursorLatLng.lat} Longitude: ${cursorLatLng.lng}`} </p>
+
     <p className="Pass">Upcoming pass: </p>
-    <ol>
-      {_.map(upcomingPass, (k, v) => (
-        <li>{v}: {k}</li>
-      ))}
-    </ol>
+    <TableContainer component={Paper}>
+      <Table sx={{minWidth: 650}} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="left">Peak Time</TableCell>
+            <TableCell align="left">Rise Time</TableCell>
+            <TableCell align="left">Set Time</TableCell>
+            <TableCell align="left">Duration</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {_.map(upcomingPass, (k, v) => (
+            <TableRow
+              key={v}
+              sx={{'&:last-child td, &:last-child th': {border: 0}}}
+            >
+              <TableCell align="left">{moment(v)
+                  .format('MMMM Do YYYY, h:mm:ss a')}</TableCell>
+              <TableCell align="left">{moment(`${JSON.parse(k)['rise']}+00:00`)
+                  .format('h:mm:ss a')}</TableCell>
+              <TableCell align="left">{moment(`${JSON.parse(k)['set']}+00:00`)
+                  .format('h:mm:ss a')}</TableCell>
+              <TableCell align="left">{JSON.parse(k)['duration']}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+
+    {/*<ol>*/}
+    {/*  {_.map(upcomingPass, (k, v) => (*/}
+    {/*    <li>{v}: {k}</li>*/}
+    {/*  ))}*/}
+    {/*</ol>*/}
   </div>;
 };
 
