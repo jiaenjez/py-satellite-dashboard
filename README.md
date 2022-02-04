@@ -34,6 +34,14 @@ navigate to `src/python/app.py` and **run app.py**
 
 in browser, go to: http://127.0.0.1:3000/
 
+## To dos
+
+Add React UI library
+
+Add React Animation library
+
+Refactor backend calculation to better match JSON
+
 ## Available Scripts
 
 In the project directory, you can run:
