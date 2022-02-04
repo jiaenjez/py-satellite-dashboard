@@ -46,9 +46,9 @@ def getHorizon():
 
     predictedPass = calculation.findHorizonTime(selectedSatellite, predictionDuration,
                                                 wgs84.latlon(rxLat, rxLong,
-                                                             elevation_m=rxElevation))[1]
+                                                             elevation_m=rxElevation))
 
-    return flask.jsonify(predictedPass)
+    return predictedPass
 
 
 if __name__ == '__main__':
