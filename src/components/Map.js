@@ -10,7 +10,6 @@ import Select from '@mui/material/Select';
 import {FormControl, InputLabel, MenuItem} from '@mui/material';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
-
 const Map = () => {
   const [cursorLatLng, setCursorLatLng] = useState({lat: 33.6405,
     lng: -117.8443});
@@ -52,7 +51,7 @@ const Map = () => {
       onClick={(mouseEvent) => {
         setCursorLatLng({lat: mouseEvent.latLng.lat(),
           lng: mouseEvent.latLng.lng()});
-        getPrediction(cursorLatLng);
+        getPrediction(cursorLatLng, dropdownSelect);
         setUpcomingPass(passPrediction);
       }}
     >

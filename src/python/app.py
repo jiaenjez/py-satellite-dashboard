@@ -34,17 +34,21 @@ def getCalculation():
     return flask.jsonify(calculation.getSerializedPath(calculation.getPath(data, "latlong")))
 
 
+@app.route('/available_satellite', methods=['GET'])
+def getSatellite():
+    return flask.jsonify(list(tle.loadTLE().keys()))
+
+
 @app.route('/flight_horizon', methods=['POST'])
 def getHorizon():
-    data = tle.loadTLE()
-    selectedSatellite = data['0 AMICALSAT']
+    selectedSatellite = request.get_json().get('satellite')
     rxLatLng = request.get_json().get('rxLatLng')
     rxLat = rxLatLng['lat']
     rxLong = rxLatLng['lng']
     rxElevation = 0
     predictionDuration = 1 * 24 * 3600
 
-    predictedPass = calculation.findHorizonTime(selectedSatellite, predictionDuration,
+    predictedPass = calculation.findHorizonTime(tle.loadTLE()[selectedSatellite], predictionDuration,
                                                 wgs84.latlon(rxLat, rxLong,
                                                              elevation_m=rxElevation))
 
