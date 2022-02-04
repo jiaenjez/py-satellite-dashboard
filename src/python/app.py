@@ -39,7 +39,7 @@ def getSatellite():
     return flask.jsonify(list(tle.loadTLE().keys()))
 
 
-@app.route('/flight_horizon', methods=['POST'])
+@app.route('/prediction', methods=['POST'])
 def getHorizon():
     selectedSatellite = request.get_json().get('satellite')
     rxLatLng = request.get_json().get('rxLatLng')
