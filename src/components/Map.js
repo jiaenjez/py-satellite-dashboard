@@ -23,7 +23,7 @@ const Map = () => {
   const [isInitialized, setIsInitialized] =
       useState(false);
 
-  if(!isInitialized) {
+  if (!isInitialized) {
     getAvailableSatellite().then((data) => {
       setSatelliteList(data);
     });
@@ -33,8 +33,8 @@ const Map = () => {
   const handleSelectorChange = (event) => {
     setDropdownSelected(event.target.value);
     getPrediction(cursorLatLng, dropdownSelect).then((prediction) => {
-        setUpcomingPass(prediction);
-    })
+      setUpcomingPass(prediction);
+    });
   };
 
   const EmbeddedMap = compose(
@@ -57,7 +57,7 @@ const Map = () => {
         });
         getPrediction(cursorLatLng, dropdownSelect).then((prediction) => {
           setUpcomingPass(prediction);
-        })
+        });
       }}
     >
       {(<Marker position={cursorLatLng} />
