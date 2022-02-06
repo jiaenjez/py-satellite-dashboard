@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {compose, withProps} from 'recompose';
+import {compose, withProps, withState, withHandlers} from 'recompose';
 import {
   withScriptjs, withGoogleMap, GoogleMap, Marker
 } from 'react-google-maps';
@@ -19,7 +19,7 @@ import {
   TableRow,
   Paper
 } from '@mui/material';
-import moment from "moment";
+import moment from 'moment';
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -56,12 +56,30 @@ const Map = () => {
         containerElement: <div style={{height: `400px`}} />,
         mapElement: <div style={{height: `100%`}} />
       }),
+      withState('zoom', 'onZoomChange', 8),
+      withHandlers(() => {
+        const refs = {
+          map: undefined
+        };
+
+        return {
+          onMapMounted: () => ref => {
+            refs.map = ref;
+          },
+          onZoomChanged: ({onZoomChange}) => () => {
+            onZoomChange(refs.map.getZoom());
+          }
+        };
+      }),
       withScriptjs,
       withGoogleMap
-  )(() => (
+  )((props) => (
     <GoogleMap
-      defaultZoom={7}
+      ref={props.onMapMounted}
       defaultCenter={cursorLatLng}
+      defaultZoom={7}
+      zoom={props.zoom}
+      onZoomChanged={props.onZoomChanged}
       onClick={(mouseEvent) => {
         setCursorLatLng({
           lat: mouseEvent.latLng.lat(),
@@ -129,11 +147,11 @@ const Map = () => {
       </Table>
     </TableContainer>
 
-    {/*<ol>*/}
+    {/* <ol>*/}
     {/*  {_.map(upcomingPass, (k, v) => (*/}
     {/*    <li>{v}: {k}</li>*/}
     {/*  ))}*/}
-    {/*</ol>*/}
+    {/* </ol>*/}
   </div>;
 };
 
