@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# CubeSAT Satellite Dashboard
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -35,6 +35,29 @@ Double check `Python3` and `Pip3` are installed
 `brew install nvm`
 
 `brew install yarn`
+
+## Connecting to our SQL Database
+
+`brew install postgresql`
+
+`pip install psycopg2`
+
+A free SQL database was created on [elephantSQL](https://www.elephantsql.com/)
+
+Connection Information using [DataGrip](https://www.jetbrains.com/datagrip/)
+, can also work with other SQL database editor
+
+```
+Driver: PostgreSQL
+
+Host: castor.db.elephantsql.com
+
+User: omoglffn
+
+Password: Ask for password
+
+URL: jdbc:postgresql://castor.db.elephantsql.com/
+```
 
 ## Run React App
 
