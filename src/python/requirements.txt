@@ -12,3 +12,6 @@ pip
 wheel
 google
 setuptools
+psycopg2
+flask_cors
+flask_sqlalchemy
