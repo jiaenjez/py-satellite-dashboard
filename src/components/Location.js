@@ -1,8 +1,5 @@
-// eslint-disable-next-line no-unused-vars
-import React, {useEffect, useState} from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import {useFormik} from 'formik';
-import './styles.css';
 
 
 const Location = () => {
@@ -17,22 +14,22 @@ const Location = () => {
           mode: 'cors',
           headers: {
             'Content-Type': 'application/json',
-            'accept': 'application/json',
+            'accept': 'application/json'
           },
           body: JSON.stringify({
             address: formik.values.address,
             city: formik.values.city,
             postalCode: formik.values.postalCode,
             country: formik.values.country,
-            adminDistrict: formik.values.adminDistrict,
-          }),
+            adminDistrict: formik.values.adminDistrict
+          })
         })
             .then((response) => response.json()).then((data) => {
               formik.setFieldValue('latLong', JSON.stringify(data));
               console.log(formik.values.latLong);
             });
         alert(JSON.stringify(formik.values.latLong, null, 2));
-      },
+      }
     });
 
     return (
@@ -99,6 +96,4 @@ const Location = () => {
   );
 };
 
-const rootElement = document.getElementById('root');
-ReactDOM.render(<Location />, rootElement);
 export default Location;

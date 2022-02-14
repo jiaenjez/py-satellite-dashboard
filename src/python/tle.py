@@ -60,7 +60,7 @@ def loadTLE() -> {dict}:
 
     print("LOGGING: cache hit")
     data = dict()
-    keySetString = client.get("keySet").decode("utf-8")
+    keySetString = (client.get("keySet")).decode("utf-8")
     keySet = ast.literal_eval(keySetString[10:-1])
 
     for k in keySet:

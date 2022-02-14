@@ -4,6 +4,24 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Make sure you have `python3`, `pip3`, `brew`, `yarn`, `node`, `npm`, and `nvm` installed
 
+## API dependency
+
+Map feature of this project is entirely dependent on Google and Bing map's API
+
+Since our GitHub repo is public, to prevent accidental billing charges
+
+Google Map API is hidden in a `.env` file and stored locally
+
+[Getting a Google Map API key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+
+Go to the root directory of this project: `cd .../py-satellite-dashboard`
+
+Create a hidden .env file: `touch .env`
+
+Open .env file: `vi .env` or `open .env`
+
+Paste this line: `REACT_APP_GOOGLE_MAP_API_KEY=<YOUR API KEY GOES HERE>`
+
 ## Installing prerequisite
 
 Double check `Python3` and `Pip3` are installed
@@ -33,6 +51,13 @@ with PyCharm, open project and `yarn start` in terminal
 navigate to `src/python/app.py` and **run app.py**
 
 in browser, go to: http://127.0.0.1:3000/
+
+## To dos
+
+Add React UI library
+
+Add React Animation library
+
 
 ## Available Scripts
 
@@ -76,6 +101,8 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+The basic of React file structure: [React documentation](https://www.cluemediator.com/create-react-application-multiple-components)
 
 ### Code Splitting
 
