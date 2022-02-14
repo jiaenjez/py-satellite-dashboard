@@ -162,7 +162,8 @@ def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> json:
     #         print(", ", end="")
     # END DEBUG
 
-    ret = {}
+    retDict = {}
+    retJson = {}
     for index in range(0, len(formattedEvents), 3):
         try:
             formattedTimeStamps[index + 2]
@@ -182,12 +183,17 @@ def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> json:
                                    numpy.arange(t0_sec, t1_sec, 60))
             eventTimeArray = eventDuration.utc_strftime('%Y %b %d %H:%M:%S')
 
-            ret[str(datetime_peak)] = json.dumps({'rise': str(eventTimeArray[0]),
-                                                  'set': str(eventTimeArray[-1]),
-                                                  'duration': len(eventTimeArray),
-                                                  'interval': str(eventDuration)}, indent=4)
+            retJson[str(datetime_peak)] = json.dumps({'rise': str(eventTimeArray[0]),
+                                                      'set': str(eventTimeArray[-1]),
+                                                      'duration': len(eventTimeArray),
+                                                      'interval': str(eventDuration)}, indent=4)
 
-    return json.dumps(ret, indent=4)
+            retDict[str(datetime_peak)] = {'rise': str(eventTimeArray[0]),
+                                           'set': str(eventTimeArray[-1]),
+                                           'duration': len(eventTimeArray),
+                                           'interval': str(eventDuration)}
+
+    return json.dumps(retJson, indent=4), retDict
 
 # def findHorizonTime(data, duration, receiverLocation: wgs84.latlon) -> json:
 #     satellite = EarthSatellite(data["tle1"], data["tle2"], data["tle0"], load.timescale())
