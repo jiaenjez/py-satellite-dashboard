@@ -22,4 +22,6 @@ class Post(db.Model):
         }
 
 
-db.create_all()
+exampleData = Post(id=3, title="testTitle", description="testDescription", created_at="now")
+db.session.add(exampleData)
+db.session.commit()
