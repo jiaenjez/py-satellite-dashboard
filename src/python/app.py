@@ -1,10 +1,12 @@
 import flask
 import requests
 from flask import Flask, request
+from flask_cors import CORS
 from skyfield.toposlib import wgs84
 from src.python import tle, geocoding, satnogs, calculation
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/response', methods=['GET'])
