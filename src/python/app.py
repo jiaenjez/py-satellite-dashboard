@@ -48,8 +48,8 @@ def getHorizon():
     predictionDuration = 1 * 24 * 3600
 
     predictedPass, predictedDict = calculation.findHorizonTime(tle.loadTLE()[selectedSatellite], predictionDuration,
-                                                wgs84.latlon(rxLat, rxLong,
-                                                             elevation_m=rxElevation))
+                                                               wgs84.latlon(rxLat, rxLong,
+                                                                            elevation_m=rxElevation))
 
     return predictedPass
 

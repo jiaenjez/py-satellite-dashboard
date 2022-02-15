@@ -1,10 +1,12 @@
 import subprocess
 from sys import platform as _platform
 from datetime import datetime
-from src.python import satnogs, filepath
+from src.python import satnogs, dbModel
 from pymemcache.client import base
+from appConfig import db
 import ast
 
+# config for memcache
 client = base.Client(('localhost', 11211))
 
 
@@ -65,3 +67,24 @@ def loadTLE() -> {dict}:
         v = client.get(key).decode("utf-8")  # byte -> str
         data[k] = ast.literal_eval(v)  # str -> dict
     return data
+
+
+def saveToDB():
+    response = loadTLE()
+    dbArray = []
+    for key in response.keys():
+        response[key]
+        dbArray.append(dbModel.getTLEObject(key, response[key]['tle1'], response[key]['tle2'],
+                                            datetime.now()))
+
+    dbModel.db.drop_all()
+    dbModel.db.create_all()
+
+    for entry in dbArray:
+        dbModel.db.session.add(entry)
+
+    dbModel.db.session.commit()
+    dbModel.db.close_all_sessions()
+
+
+saveToDB()
