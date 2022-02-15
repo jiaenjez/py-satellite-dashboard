@@ -16,11 +16,7 @@ def getTLE() -> {dict}:  # {tle["tle0"]: tle for tle in requests.get(TLE_URL).js
     return dict(zip(keys, tleList))
 
 
-def saveTLE() -> {dict}:
-    if _platform == "win32":
-        return getTLE()
-
-    data = getTLE()
+def writeMemcache(data):
     currTime = datetime.now()
     client.set("currTime", currTime)
     client.set("keySet", data.keys())
@@ -29,14 +25,19 @@ def saveTLE() -> {dict}:
         line = data[key]  # line = TLE info
         client.set(cacheKey, line)
 
-    return data
+
+def writeDB(data):
+    dbUtils.dbDropAll()
+    dbUtils.dbCreateAll()
+    dbUtils.dbWrite([dbModel.tle_create_row(key, data[key]['tle1'], data[key]['tle2'],
+                                            datetime.now()) for key in data.keys()])
 
 
-def loadTLE() -> {dict}:
-    if _platform == "win32":
-        print("WARNING: cache miss")
-        return getTLE()
+def readDB():
+    return dbUtils.dbRead("find_tle_all")
 
+
+def readMemcache():
     try:
         timeStamp = client.get("currTime")
     except ConnectionRefusedError:
@@ -69,9 +70,26 @@ def loadTLE() -> {dict}:
     return data
 
 
+def saveTLE() -> {dict}:
+    data = getTLE()
+    if _platform == "darwin":
+        writeMemcache(data)
+    writeDB(data)
+
+    return data
+
+
+def loadTLE() -> {dict}:
+    if _platform != "darwin":
+        return getTLE()
+
+    return readMemcache()
+
+
 def saveToDB():
     response = loadTLE()
     dbUtils.dbDropAll()
     dbUtils.dbCreateAll()
     dbUtils.dbWrite([dbModel.tle_create_row(key, response[key]['tle1'], response[key]['tle2'],
                                             datetime.now()) for key in response.keys()])
+

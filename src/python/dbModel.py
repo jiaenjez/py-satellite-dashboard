@@ -5,7 +5,7 @@ class tle(db.Model):
     satellite_id = db.Column(db.String, primary_key=True)
     line_0 = db.Column(db.String)
     line_1 = db.Column(db.String)
-    updated_at = db.Column(db.Time)
+    updated_at = db.Column(db.DateTime)
 
 
 class prediction(db.Model):
