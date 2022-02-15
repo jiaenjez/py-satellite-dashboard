@@ -8,7 +8,7 @@ class tle(db.Model):
     updated_at = db.Column(db.Time)
 
 
-class passes(db.Model):
+class prediction(db.Model):
     timestamp = db.Column(db.String, primary_key=True)
     id = db.Column(db.String)
     rise_at = db.Column(db.Time)
@@ -27,8 +27,8 @@ class passes(db.Model):
         }
 
 
-def getTLEObject(id, line0, line1, timestamp):
-    return tle(satellite_id=id, line_0=line0, line_1=line1, updated_at=timestamp)
+tle_create_row = lambda id, line0, line1, timestamp: \
+    tle(satellite_id=id, line_0=line0, line_1=line1, updated_at=timestamp)
 
 # def db_pass_example():
 #     row = []

@@ -71,11 +71,8 @@ def loadTLE() -> {dict}:
 
 def saveToDB():
     response = loadTLE()
-    dbArray = []
-    for key in response.keys():
-        response[key]
-        dbArray.append(dbModel.getTLEObject(key, response[key]['tle1'], response[key]['tle2'],
-                                            datetime.now()))
+    dbArray = [dbModel.tle_create_row(key, response[key]['tle1'], response[key]['tle2'],
+                                      datetime.utcnow()) for key in response.keys()]
 
     dbModel.db.drop_all()
     dbModel.db.create_all()
@@ -85,6 +82,3 @@ def saveToDB():
 
     dbModel.db.session.commit()
     dbModel.db.close_all_sessions()
-
-
-saveToDB()
