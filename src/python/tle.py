@@ -1,7 +1,7 @@
 import subprocess
 from sys import platform as _platform
 from datetime import datetime
-from src.python import satnogs, dbModel
+from src.python import satnogs, dbModel, dbUtils
 from pymemcache.client import base
 from appConfig import db
 import ast
@@ -71,14 +71,7 @@ def loadTLE() -> {dict}:
 
 def saveToDB():
     response = loadTLE()
-    dbArray = [dbModel.tle_create_row(key, response[key]['tle1'], response[key]['tle2'],
-                                      datetime.utcnow()) for key in response.keys()]
-
-    dbModel.db.drop_all()
-    dbModel.db.create_all()
-
-    for entry in dbArray:
-        dbModel.db.session.add(entry)
-
-    dbModel.db.session.commit()
-    dbModel.db.close_all_sessions()
+    dbUtils.dbDropAll()
+    dbUtils.dbCreateAll()
+    dbUtils.dbWrite([dbModel.tle_create_row(key, response[key]['tle1'], response[key]['tle2'],
+                                            datetime.now()) for key in response.keys()])
