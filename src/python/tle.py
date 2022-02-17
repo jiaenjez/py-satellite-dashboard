@@ -48,8 +48,13 @@ def writeDB(data):
 
 
 def readDB():
-    timestamp = dbUtils.dbRead("get_tle_timestamp")
-    print(timestamp)
+    if not dbUtils.dbRead("get_tle_timestamp"):
+        return saveTLE()
+
+    timestamp, = dbUtils.dbRead("get_tle_timestamp")
+    print(isRecent(timestamp))
+    if not isRecent(timestamp):
+        return saveTLE()
 
     return dbUtils.dbRead("find_tle_all") if dbUtils.dbRead("find_tle_all") else saveTLE()
 
@@ -73,13 +78,11 @@ def readMemcache():
 
     print("LOGGING: cache hit")
     data = dict()
-    keySetString = (client.get("keySet")).decode("utf-8")
-    keySet = ast.literal_eval(keySetString[10:-1])
+    keySet = ast.literal_eval((client.get("keySet")).decode("utf-8")[10:-1])
 
-    for k in keySet:
-        key = k.replace(" ", "_")
-        v = client.get(key).decode("utf-8")  # byte -> str
-        data[k] = ast.literal_eval(v)  # str -> dict
+    for key in keySet:
+        value = client.get(key.replace(" ", "_")).decode("utf-8")  # byte -> str
+        data[key] = ast.literal_eval(value)  # str -> dict
     return data
 
 
@@ -96,19 +99,15 @@ def loadTLE() -> {dict}:
     return readMemcache() if readMemcache() else readDB()
 
 
-def saveToDB():
-    response = loadTLE()
-    dbUtils.dbDropAll()
-    dbUtils.dbCreateAll()
-    dbUtils.dbWrite([dbModel.tle_create_row(key, response[key]['tle1'], response[key]['tle2'],
-                                            datetime.now()) for key in response.keys()])
-
-
 def isRecent(timestamp) -> bool:
-    lastTimestamp = datetime.strptime(timestamp.decode("utf-8"), '%Y-%m-%d %H:%M:%S.%f')
+    try:
+        lastTimestamp = datetime.strptime(timestamp.decode("utf-8"), '%Y-%m-%d %H:%M:%S.%f')
+    except AttributeError:
+        lastTimestamp = timestamp
     currentTimestamp = datetime.now()
-    return currentTimestamp - lastTimestamp.days >= 1
+    return (currentTimestamp - lastTimestamp).days >= 1
 
 
-clearMemcache()
-print(loadTLE())
+# clearMemcache()
+# print(saveTLE())
+

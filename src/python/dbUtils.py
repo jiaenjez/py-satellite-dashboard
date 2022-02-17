@@ -21,7 +21,7 @@ def dbRead(queryName, *args):
         else:
             dbCursor.execute(dbQueries.queries[queryName]())
     except psycopg2.errors.UndefinedTable:
-        return []
+        return None
 
     dbResponse: [()] = dbCursor.fetchall()
     return None if len(dbResponse) == 0 else dbResponse[0] if len(dbResponse) == 1 else dbResponse
