@@ -1,3 +1,5 @@
+import psycopg2
+
 from src.python import appConfig, dbQueries, dbModel
 
 
@@ -13,10 +15,13 @@ def dbWrite(entryArray):
 
 def dbRead(queryName, *args):
     dbCursor = appConfig.dbConnection.cursor()
-    if args:
-        dbCursor.execute(dbQueries.queries[queryName](args))
-    else:
-        dbCursor.execute(dbQueries.queries[queryName])
+    try:
+        if args:
+            dbCursor.execute(dbQueries.queries[queryName](args))
+        else:
+            dbCursor.execute(dbQueries.queries[queryName])
+    except psycopg2.errors.UndefinedTable:
+        return []
     return dbCursor.fetchall()
 
 

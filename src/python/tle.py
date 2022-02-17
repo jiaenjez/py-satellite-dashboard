@@ -1,3 +1,4 @@
+import json
 import subprocess
 from sys import platform as _platform
 from datetime import datetime
@@ -10,10 +11,23 @@ import ast
 client = base.Client(('localhost', 11211))
 
 
-def getTLE() -> {dict}:  # {tle["tle0"]: tle for tle in requests.get(TLE_URL).json()}
+def getTLE() -> {dict}:
     tleList = satnogs.tleFilter(satnogs.sortMostRecent(satnogs.satelliteFilter(satnogs.getSatellites())))
     keys = [tle['tle0'] for tle in tleList]
     return dict(zip(keys, tleList))
+
+
+def clearMemcache():
+    try:
+        keySet = ast.literal_eval((client.get("keySet")).decode("utf-8")[10:-1])
+    except AttributeError:
+        pass
+    else:
+        for key in keySet:
+            client.set(key.replace(" ", "_"), None)
+    client.set("currTime", None)
+    client.set("keySet", None)
+    client.flush_all()
 
 
 def writeMemcache(data):
@@ -34,7 +48,7 @@ def writeDB(data):
 
 
 def readDB():
-    return dbUtils.dbRead("find_tle_all")
+    return dbUtils.dbRead("find_tle_all") if dbUtils.dbRead("find_tle_all") else saveTLE()
 
 
 def readMemcache():
@@ -48,15 +62,13 @@ def readMemcache():
 
     if timeStamp is None:
         print("WARNING: cache miss")
-        data = saveTLE()
-        return data
+        return None
 
     dateTimeObj = datetime.strptime(timeStamp.decode("utf-8"), '%Y-%m-%d %H:%M:%S.%f')
     newCurrTime = datetime.now()
     if (newCurrTime - dateTimeObj).days >= 1:
         print("WARNING: cache outdated")
-        data = saveTLE()
-        return data
+        return None
 
     print("LOGGING: cache hit")
     data = dict()
@@ -80,10 +92,7 @@ def saveTLE() -> {dict}:
 
 
 def loadTLE() -> {dict}:
-    if _platform != "darwin":
-        return getTLE()
-
-    return readMemcache()
+    return readMemcache() if readMemcache() else readDB()
 
 
 def saveToDB():
