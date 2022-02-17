@@ -19,18 +19,12 @@ def dbRead(queryName, *args):
         if args:
             dbCursor.execute(dbQueries.queries[queryName](args))
         else:
-            dbCursor.execute(dbQueries.queries[queryName])
+            dbCursor.execute(dbQueries.queries[queryName]())
     except psycopg2.errors.UndefinedTable:
         return []
 
     dbResponse: [()] = dbCursor.fetchall()
-
-    if len(dbResponse) == 0:
-        return None
-    elif len(dbResponse) == 1:
-        return dbResponse[0]
-    else:
-        return dbResponse
+    return None if len(dbResponse) == 0 else dbResponse[0] if len(dbResponse) == 1 else dbResponse
 
 
 def dbDropTable(tableName):
