@@ -22,7 +22,15 @@ def dbRead(queryName, *args):
             dbCursor.execute(dbQueries.queries[queryName])
     except psycopg2.errors.UndefinedTable:
         return []
-    return dbCursor.fetchall()
+
+    dbResponse: [()] = dbCursor.fetchall()
+
+    if len(dbResponse) == 0:
+        return None
+    elif len(dbResponse) == 1:
+        return dbResponse[0]
+    else:
+        return dbResponse
 
 
 def dbDropTable(tableName):

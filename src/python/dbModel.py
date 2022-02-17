@@ -11,8 +11,8 @@ class tle(db.Model):
 class prediction(db.Model):
     timestamp = db.Column(db.String, primary_key=True)
     id = db.Column(db.String)
-    rise_at = db.Column(db.Time)
-    set_at = db.Column(db.Time)
+    rise_at = db.Column(db.DateTime)
+    set_at = db.Column(db.DateTime)
     duration = db.Column(db.Integer)
     interval = db.Column(db.String)
 

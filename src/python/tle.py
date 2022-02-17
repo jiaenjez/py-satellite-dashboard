@@ -48,25 +48,26 @@ def writeDB(data):
 
 
 def readDB():
+    timestamp = dbUtils.dbRead("get_tle_timestamp")
+    print(timestamp)
+
     return dbUtils.dbRead("find_tle_all") if dbUtils.dbRead("find_tle_all") else saveTLE()
 
 
 def readMemcache():
     try:
-        timeStamp = client.get("currTime")
+        timestamp = client.get("currTime")
     except ConnectionRefusedError:
-        timeStamp = None
+        timestamp = None
         subprocess.run(["brew", "services", "stop", "memcached"])
         subprocess.run(["brew", "install", "memcached"])
         subprocess.run(["brew", "services", "start", "memcached"])
 
-    if timeStamp is None:
+    if timestamp is None:
         print("WARNING: cache miss")
         return None
 
-    dateTimeObj = datetime.strptime(timeStamp.decode("utf-8"), '%Y-%m-%d %H:%M:%S.%f')
-    newCurrTime = datetime.now()
-    if (newCurrTime - dateTimeObj).days >= 1:
+    if not isRecent(timestamp):
         print("WARNING: cache outdated")
         return None
 
@@ -102,3 +103,12 @@ def saveToDB():
     dbUtils.dbWrite([dbModel.tle_create_row(key, response[key]['tle1'], response[key]['tle2'],
                                             datetime.now()) for key in response.keys()])
 
+
+def isRecent(timestamp) -> bool:
+    lastTimestamp = datetime.strptime(timestamp.decode("utf-8"), '%Y-%m-%d %H:%M:%S.%f')
+    currentTimestamp = datetime.now()
+    return currentTimestamp - lastTimestamp.days >= 1
+
+
+clearMemcache()
+print(loadTLE())
