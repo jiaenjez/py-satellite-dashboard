@@ -6,13 +6,18 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from flask_cors import CORS
 
-# load secret from .env
-load_dotenv()
-dbUrl = os.getenv('DB_URL')
+
+# db/memcache config setting
+enableDB = True
+enableMemcache = True
 
 # flask config
 app = Flask(__name__)
 CORS(app)
+
+# load secret from .env
+load_dotenv()
+dbUrl = os.getenv('DB_URL')
 
 # sqlalchemy db config
 app.config["SQLALCHEMY_DATABASE_URI"] = dbUrl

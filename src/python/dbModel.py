@@ -27,8 +27,8 @@ class prediction(db.Model):
         }
 
 
-tle_create_row = lambda id, line0, line1, timestamp: \
-    tle(satellite_id=id, line_0=line0, line_1=line1, updated_at=timestamp)
+def tle_create_row(id, line0, line1, timestamp):
+    return tle(satellite_id=id, line_0=line0, line_1=line1, updated_at=timestamp)
 
 # def db_pass_example():
 #     row = []

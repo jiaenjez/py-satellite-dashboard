@@ -4,7 +4,7 @@ from sys import platform as _platform
 from datetime import datetime
 from src.python import satnogs, dbModel, dbUtils
 from pymemcache.client import base
-from appConfig import db
+import appConfig
 import ast
 
 # config for memcache
@@ -17,14 +17,25 @@ def getTLE() -> {dict}:
     return dict(zip(keys, tleList))
 
 
-def clearMemcache():
-    try:
-        keySet = ast.literal_eval((client.get("keySet")).decode("utf-8")[10:-1])
-    except AttributeError:
-        pass
+def isRecent(timestamp) -> bool:
+    if timestamp is None:
+        return False
+
+    if not type(timestamp) is datetime:
+        lastTimestamp = datetime.strptime(timestamp.decode("utf-8"), '%Y-%m-%d %H:%M:%S.%f')
     else:
+        lastTimestamp = timestamp
+    currentTimestamp = datetime.now()
+    return (currentTimestamp - lastTimestamp).days <= 1
+
+
+def clearMemcache():
+    # for Testing/Debug
+    if not client.get("keySet") is None:
+        keySet = ast.literal_eval((client.get("keySet")).decode("utf-8"))
         for key in keySet:
             client.set(key.replace(" ", "_"), None)
+
     client.set("currTime", None)
     client.set("keySet", None)
     client.flush_all()
@@ -33,30 +44,10 @@ def clearMemcache():
 def writeMemcache(data):
     currTime = datetime.now()
     client.set("currTime", currTime)
-    client.set("keySet", data.keys())
-    for key in data.keys():
-        cacheKey = key.replace(" ", "_")
-        line = data[key]  # line = TLE info
-        client.set(cacheKey, line)
-
-
-def writeDB(data):
-    dbUtils.dbDropAll()
-    dbUtils.dbCreateAll()
-    dbUtils.dbWrite([dbModel.tle_create_row(key, data[key]['tle1'], data[key]['tle2'],
-                                            datetime.now()) for key in data.keys()])
-
-
-def readDB():
-    if not dbUtils.dbRead("get_tle_timestamp"):
-        return saveTLE()
-
-    timestamp, = dbUtils.dbRead("get_tle_timestamp")
-    print(isRecent(timestamp))
-    if not isRecent(timestamp):
-        return saveTLE()
-
-    return dbUtils.dbRead("find_tle_all") if dbUtils.dbRead("find_tle_all") else saveTLE()
+    keySet = set(data.keys())
+    client.set("keySet", keySet)
+    for key in keySet:
+        client.set(key.replace(" ", "_"), data[key])
 
 
 def readMemcache():
@@ -78,7 +69,7 @@ def readMemcache():
 
     print("LOGGING: cache hit")
     data = dict()
-    keySet = ast.literal_eval((client.get("keySet")).decode("utf-8")[10:-1])
+    keySet = ast.literal_eval((client.get("keySet")).decode("utf-8"))
 
     for key in keySet:
         value = client.get(key.replace(" ", "_")).decode("utf-8")  # byte -> str
@@ -86,28 +77,58 @@ def readMemcache():
     return data
 
 
+def writeDB(data):
+    data = [dbModel.tle_create_row(key, data[key]['tle1'], data[key]['tle2'],
+                                   datetime.now()) for key in data.keys()]
+    print(data)
+    dbUtils.dbWrite(data, force_refresh=True)
+
+
+def readDB():
+    if not appConfig.enableDB:
+        return saveTLE()
+
+    if not dbUtils.dbRead("get_tle_timestamp"):
+        return saveTLE()
+
+    timestamp, = dbUtils.dbRead("get_tle_timestamp")
+    if not isRecent(timestamp):
+        print("WARNING: db outdated")
+        return saveTLE()
+
+    dbData: dict = dbUtils.dbRead("find_tle_all", toDict=True)
+    data = dict(zip([tle['satellite_id'] for tle in dbData], dbData))
+
+    if data:
+        writeMemcache(data)
+        return data
+    else:
+        return saveTLE()
+
+
 def saveTLE() -> {dict}:
     data = getTLE()
-    if _platform == "darwin":
-        writeMemcache(data)
-    writeDB(data)
+
+    if appConfig.enableMemcache:
+        if _platform == "darwin":
+            print("LOGGING: writing to cache")
+            writeMemcache(data)
+
+    if appConfig.enableDB:
+        print("LOGGING: writing to db")
+        writeDB(data)
+        print("LOGGING: done writing to db")
 
     return data
 
 
 def loadTLE() -> {dict}:
-    return readMemcache() if readMemcache() else readDB()
+    if appConfig.enableMemcache:
+        data = readMemcache()
+        return data if data else readDB()
+    else:
+        return readDB()
 
 
-def isRecent(timestamp) -> bool:
-    try:
-        lastTimestamp = datetime.strptime(timestamp.decode("utf-8"), '%Y-%m-%d %H:%M:%S.%f')
-    except AttributeError:
-        lastTimestamp = timestamp
-    currentTimestamp = datetime.now()
-    return (currentTimestamp - lastTimestamp).days >= 1
-
-
-# clearMemcache()
-# print(saveTLE())
-
+clearMemcache()
+print(loadTLE())
