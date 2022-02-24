@@ -8,16 +8,19 @@ from appConfig import app
 
 @app.route('/response', methods=['GET'])
 def getResponse():
+    # For debug
     return flask.jsonify(requests.get(satnogs.TLE_URL).json())
 
 
 @app.route('/tle', methods=['GET'])
 def getPayload():
+    # For debug
     return flask.jsonify(tle.loadTLE())
 
 
 @app.route('/location', methods=['POST'])
 def getLatLong():
+    # input from forms
     addressLine = request.get_json().get('address')
     city = request.get_json().get('city')
     postalCode = request.get_json().get('postalCode')
@@ -29,12 +32,14 @@ def getLatLong():
 
 @app.route('/flight_path', methods=['GET'])
 def getCalculation():
+    # For debug
     data = tle.loadTLE()['0 AMICALSAT']
     return flask.jsonify(calculation.getSerializedPath(calculation.getPath(data, "latlong")))
 
 
 @app.route('/available_satellite', methods=['GET'])
 def getSatellite():
+    # for dropdown box
     return flask.jsonify(list(tle.loadTLE().keys()))
 
 

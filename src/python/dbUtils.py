@@ -1,3 +1,7 @@
+from sqlalchemy import exc
+import psycopg2
+import psycopg2.extras
+
 from src.python import appConfig, dbQueries, dbModel
 
 
@@ -5,19 +9,46 @@ def dbCommit():
     dbModel.db.session.commit()
 
 
-def dbWrite(entryArray):
+def dbWrite(entryArray, **kwargs):
+    if 'force_refresh' in kwargs.keys() and kwargs['force_refresh']:
+        # dbModel.db.drop_all()
+        # dbModel.db.create_all()
+        pass
     for entry in entryArray:
         dbModel.db.session.add(entry)
+
+    try:
+        dbModel.db.session.commit()
+    except exc.ProgrammingError:
+        dbModel.db.create_all()
+        for entry in entryArray:
+            dbModel.db.session.add(entry)
+        dbModel.db.session.commit()
     dbModel.db.session.commit()
 
 
-def dbRead(queryName, *args):
-    dbCursor = appConfig.dbConnection.cursor()
-    if args:
-        dbCursor.execute(dbQueries.queries[queryName](args))
+def dbRead(queryName, *args, **kwargs):
+    """
+
+    :param queryName: list of query inside dbQueries.py
+    :param args: pass parameter into SQL query
+    :param kwargs: return a dict-like object if dict=true, else return a list of tuple
+    :return:
+    """
+    if 'dict' in kwargs.keys() and kwargs['dict']:
+        dbCursor = appConfig.dbConnection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     else:
-        dbCursor.execute(dbQueries.queries[queryName])
-    return dbCursor.fetchall()
+        dbCursor = appConfig.dbConnection.cursor()
+    try:
+        if args:
+            dbCursor.execute(dbQueries.queries[queryName](args))
+        else:
+            dbCursor.execute(dbQueries.queries[queryName]())
+    except psycopg2.errors.UndefinedTable:
+        return None
+
+    dbResponse: [()] = dbCursor.fetchall()
+    return None if len(dbResponse) == 0 else dbResponse[0] if len(dbResponse) == 1 else dbResponse
 
 
 def dbDropTable(tableName):
