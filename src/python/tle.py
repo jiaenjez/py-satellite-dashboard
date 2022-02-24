@@ -1,10 +1,13 @@
+import ast
+import logging
 import subprocess
 from datetime import datetime
 from pymemcache.client import base
-import ast
-import logging
 
-from src.python import satnogs, dbModel, dbUtils, appConfig
+import appConfig
+import dbModel
+import dbUtils
+import satnogs
 
 # config for memcache
 client = base.Client(('localhost', 11211))
