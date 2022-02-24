@@ -2,10 +2,10 @@ from appConfig import db
 
 
 class tle(db.Model):
-    satellite_id = db.Column(db.String, primary_key=True)
-    line_0 = db.Column(db.String)
-    line_1 = db.Column(db.String)
-    updated_at = db.Column(db.DateTime)
+    tle0 = db.Column(db.String, primary_key=True)
+    tle1 = db.Column(db.String)
+    tle2 = db.Column(db.String)
+    updated = db.Column(db.DateTime)
 
 
 class prediction(db.Model):
@@ -28,7 +28,7 @@ class prediction(db.Model):
 
 
 def tle_create_row(id, line0, line1, timestamp):
-    return tle(satellite_id=id, line_0=line0, line_1=line1, updated_at=timestamp)
+    return tle(tle0=id, tle1=line0, tle2=line1, updated=timestamp)
 
 # def db_pass_example():
 #     row = []

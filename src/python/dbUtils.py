@@ -5,32 +5,16 @@ import psycopg2.extras
 from src.python import appConfig, dbQueries, dbModel
 
 
-def dbConvertDict(psycopgRealDictList: list):
-    pyDictList = list()
-    for index in range(len(psycopgRealDictList)):
-        if type(psycopgRealDictList[index]) is psycopg2.extras.RealDictRow:
-            pyDict = dict(psycopgRealDictList[index])
-            print("keys: " + str(pyDict.keys()))
-            pyDictList.append({
-                'tle0': pyDict['satellite_id'],
-                'tle1': pyDict['line_0'],
-                'tle2': pyDict['line_1']
-            })
-
-    return pyDictList
-
-
 def dbCommit():
     dbModel.db.session.commit()
 
 
 def dbWrite(entryArray, **kwargs):
     if 'force_refresh' in kwargs.keys() and kwargs['force_refresh']:
-        print(kwargs['force_refresh'])
         # dbModel.db.drop_all()
         # dbModel.db.create_all()
+        pass
     for entry in entryArray:
-        print(entry)
         dbModel.db.session.add(entry)
 
     try:

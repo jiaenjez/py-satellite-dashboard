@@ -6,10 +6,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from flask_cors import CORS
 
-
 # db/memcache config setting
 enableDB = True
-enableMemcache = True
+enableMemcache = False  # turning memcache off to test db
 
 # flask config
 app = Flask(__name__)

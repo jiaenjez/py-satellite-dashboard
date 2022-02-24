@@ -30,7 +30,6 @@ def isRecent(timestamp) -> bool:
 
 
 def clearMemcache():
-    # for Testing/Debug
     if not client.get("keySet") is None:
         keySet = ast.literal_eval((client.get("keySet")).decode("utf-8"))
         for key in keySet:
@@ -80,7 +79,6 @@ def readMemcache():
 def writeDB(data):
     data = [dbModel.tle_create_row(key, data[key]['tle1'], data[key]['tle2'],
                                    datetime.now()) for key in data.keys()]
-    print(data)
     dbUtils.dbWrite(data, force_refresh=True)
 
 
@@ -97,8 +95,7 @@ def readDB():
         return saveTLE()
 
     dbData: dict = dbUtils.dbRead("find_tle_all", toDict=True)
-    dbData = dbUtils.dbConvertDict(dbData)
-    data = dict(zip([tle['tle0'] for tle in dbData], dbData))
+    data = dict(zip([tle['tle0'] for tle in dbData], [dict(kv) for kv in dbData]))
 
     if data:
         writeMemcache(data)
@@ -131,11 +128,11 @@ def loadTLE() -> {dict}:
         return readDB()
 
 
-appConfig.enableDB = False
-clearMemcache()
-print(loadTLE())
-appConfig.enableDB = True
-clearMemcache()
-print(loadTLE())
-clearMemcache()
-print(loadTLE())
+if __name__ == "__main__":
+    # appConfig.enableDB = False
+    # clearMemcache()
+    # print(loadTLE())
+    appConfig.enableDB = True
+    appConfig.enableMemcache = False
+    clearMemcache()
+    print(loadTLE())
