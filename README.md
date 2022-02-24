@@ -34,8 +34,6 @@ Double check `Python3` and `Pip3` are installed
 
 `brew install nvm`
 
-`brew install yarn`
-
 ## Connecting to our SQL Database
 
 `brew install postgresql`
@@ -59,6 +57,36 @@ Password: Ask for password
 URL: jdbc:postgresql://castor.db.elephantsql.com/
 ```
 
+ElephantSQL DB connection secret is hidden in a `.env` file and stored locally
+
+Inside `/py-satellite-dashboard/.env`
+
+Paste this line: `DB_URL=postgresql://omoglffn:<PASSWORD_GOES_HERE>@castor.db.elephantsql.com/omoglffn`
+
+## Run Flask App
+
+Setup `venv` virtualenv
+
+`cd py-satellite-dashboard`
+
+`python3 -m venv venv`
+
+`. venv/bin/activate`
+
+`pip install -r 'src/python/requirements.txt'`
+
+Create a `.flaskenv` Flask config file
+
+`touch .flaskenv`
+
+Paste in
+
+```
+FLASK_DEBUG=1
+FLASK_APP=src/python/app.py
+FLASK_ENV=development
+```
+
 ## Run React App
 
 `git clone https://github.com/UCI-CubeSat/py-satellite-dashboard/`
@@ -69,11 +97,19 @@ URL: jdbc:postgresql://castor.db.elephantsql.com/
 
 make sure Python requirements are all installed correctly
 
-with PyCharm, open project and `yarn start` in terminal
+### Using PyCharm, open project and add
 
-navigate to `src/python/app.py` and **run app.py**
+`app.py` and `npm start` in `Run/Debug Configuration`
 
-in browser, go to: http://127.0.0.1:3000/
+### Using Command Line Interface
+
+`cd py-satellite-dashboard`
+
+`flask run`
+
+`npm start`
+
+and Open http://localhost:3000 in browser
 
 ## To dos
 
