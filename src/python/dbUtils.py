@@ -5,6 +5,21 @@ import psycopg2.extras
 from src.python import appConfig, dbQueries, dbModel
 
 
+def dbConvertDict(psycopgRealDictList: list):
+    pyDictList = list()
+    for index in range(len(psycopgRealDictList)):
+        if type(psycopgRealDictList[index]) is psycopg2.extras.RealDictRow:
+            pyDict = dict(psycopgRealDictList[index])
+            print("keys: " + str(pyDict.keys()))
+            pyDictList.append({
+                'tle0': pyDict['satellite_id'],
+                'tle1': pyDict['line_0'],
+                'tle2': pyDict['line_1']
+            })
+
+    return pyDictList
+
+
 def dbCommit():
     dbModel.db.session.commit()
 

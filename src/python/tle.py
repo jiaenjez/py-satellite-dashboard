@@ -97,7 +97,8 @@ def readDB():
         return saveTLE()
 
     dbData: dict = dbUtils.dbRead("find_tle_all", toDict=True)
-    data = dict(zip([tle['satellite_id'] for tle in dbData], dbData))
+    dbData = dbUtils.dbConvertDict(dbData)
+    data = dict(zip([tle['tle0'] for tle in dbData], dbData))
 
     if data:
         writeMemcache(data)
@@ -130,5 +131,11 @@ def loadTLE() -> {dict}:
         return readDB()
 
 
+appConfig.enableDB = False
+clearMemcache()
+print(loadTLE())
+appConfig.enableDB = True
+clearMemcache()
+print(loadTLE())
 clearMemcache()
 print(loadTLE())

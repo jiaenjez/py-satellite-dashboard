@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 
 # db/memcache config setting
-enableDB = True
+enableDB = False
 enableMemcache = True
 
 # flask config
