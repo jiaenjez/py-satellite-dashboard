@@ -2,10 +2,9 @@ skyfield
 numpy
 matplotlib
 openpyxl
-datetime
 requests
 pytz
-flask
+Flask
 geocoder
 pymemcache
 pip
@@ -13,6 +12,8 @@ wheel
 google
 setuptools
 psycopg2
-flask_cors
-flask_sqlalchemy
-dotenv
+Flask
+Flask_Cors
+Flask_SQLAlchemy
+python-dotenv
+SQLAlchemy

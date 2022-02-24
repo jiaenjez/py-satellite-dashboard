@@ -27,15 +27,15 @@ def dbWrite(entryArray, **kwargs):
     dbModel.db.session.commit()
 
 
-def dbRead(queryName, toDict=False, *args):
+def dbRead(queryName, *args, **kwargs):
     """
 
     :param queryName: list of query inside dbQueries.py
-    :param toDict: return a dict-like object if toDict=true, else return a list of tuple
     :param args: pass parameter into SQL query
+    :param kwargs: return a dict-like object if dict=true, else return a list of tuple
     :return:
     """
-    if toDict:
+    if 'dict' in kwargs.keys() and kwargs['dict']:
         dbCursor = appConfig.dbConnection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     else:
         dbCursor = appConfig.dbConnection.cursor()

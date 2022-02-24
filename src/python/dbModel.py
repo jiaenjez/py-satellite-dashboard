@@ -27,8 +27,8 @@ class prediction(db.Model):
         }
 
 
-def tle_create_row(id, line0, line1, timestamp):
-    return tle(tle0=id, tle1=line0, tle2=line1, updated=timestamp)
+def tle_create_row(tle0, tle1, tle2, updated):
+    return tle(tle0=tle0, tle1=tle1, tle2=tle2, updated=updated)
 
 # def db_pass_example():
 #     row = []
