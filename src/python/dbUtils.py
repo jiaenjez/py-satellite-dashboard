@@ -2,9 +2,7 @@ import psycopg2
 import psycopg2.extras
 from sqlalchemy import exc
 
-import appConfig
-import dbModel
-import dbQueries
+from src.python import appConfig, dbModel, dbQueries
 
 
 def dbCommit():

@@ -1,6 +1,5 @@
 import urllib
 import requests
-import geocoder
 
 # consider using this library instead
 # https://geocoder.readthedocs.io/

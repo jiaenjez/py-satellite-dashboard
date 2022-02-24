@@ -1,4 +1,4 @@
-from appConfig import db
+from src.python.appConfig import db
 
 
 class tle(db.Model):

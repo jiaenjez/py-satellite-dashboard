@@ -6,8 +6,7 @@ from matplotlib import pyplot, animation
 from matplotlib.animation import FuncAnimation
 from skyfield.toposlib import wgs84
 
-import calculation
-import tle
+from src.python import calculation, tle
 
 matplotlib.use("TkAgg")
 
