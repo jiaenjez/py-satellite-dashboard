@@ -1,6 +1,9 @@
-from src.python import satnogs, filepath
-import openpyxl
 from datetime import datetime
+
+import openpyxl
+
+import filepath
+import satnogs
 
 TABS = {0: "allSatellite", 1: "filteredSatellite", 2: "sortedSatellite", 3: "TLE"}
 FILE_DIR = filepath.getRoot() + "/CubeSAT/satnogs" + str(datetime.now().date()) + ".xlsx"

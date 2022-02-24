@@ -1,10 +1,13 @@
 import random
 import urllib
+
 import matplotlib
-from src.python import tle, calculation
 from matplotlib import pyplot, animation
 from matplotlib.animation import FuncAnimation
 from skyfield.toposlib import wgs84
+
+import calculation
+import tle
 
 matplotlib.use("TkAgg")
 

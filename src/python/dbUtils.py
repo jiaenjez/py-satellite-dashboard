@@ -1,8 +1,10 @@
-from sqlalchemy import exc
 import psycopg2
 import psycopg2.extras
+from sqlalchemy import exc
 
-from src.python import appConfig, dbQueries, dbModel
+import appConfig
+import dbModel
+import dbQueries
 
 
 def dbCommit():

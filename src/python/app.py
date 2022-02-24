@@ -2,7 +2,11 @@ import flask
 import requests
 from flask import request
 from skyfield.toposlib import wgs84
-from src.python import tle, geocoding, satnogs, calculation
+
+import calculation
+import geocoding
+import satnogs
+import tle
 from appConfig import app
 
 
