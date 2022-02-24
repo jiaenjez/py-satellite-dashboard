@@ -80,6 +80,7 @@ def writeDB(data):
     data = [dbModel.tle_create_row(key, data[key]['tle1'], data[key]['tle2'],
                                    datetime.now()) for key in data.keys()]
     dbUtils.dbWrite(data, force_refresh=True)
+    dbUtils.dbClose()
 
 
 def readDB():
@@ -96,6 +97,7 @@ def readDB():
 
     dbData: dict = dbUtils.dbRead("find_tle_all", toDict=True)
     data = dict(zip([tle['tle0'] for tle in dbData], [dict(kv) for kv in dbData]))
+    dbUtils.dbClose()
 
     if data:
         writeMemcache(data)
