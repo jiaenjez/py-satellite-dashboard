@@ -1,5 +1,5 @@
 {
-  "name": "py-sat",
+  "name": "py-satellite-dashboard",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-api": "cd src/python && venv/bin/flask run --no-debugger",
+    "start-server": "venv/bin/flask run",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -45,7 +45,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://127.0.0.1:5000",
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-google": "^0.14.0",
