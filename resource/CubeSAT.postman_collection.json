@@ -6,9 +6,9 @@
 	},
 	"item": [
 		{
-			"name": "http://127.0.0.1:5000/location",
+			"name": "Available Satellite",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -21,27 +21,13 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"address\" : \"UC IRVINE\",\n    \"city\" : \"IRVINE\",\n    \"postalCode\" : \"92697\",\n    \"country\": \"US\",\n    \"adminDistrict\": \"CA\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://127.0.0.1:5000/location",
-					"protocol": "http",
+					"raw": "{{host_base}}/available_satellite",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host_base}}"
 					],
-					"port": "5000",
 					"path": [
-						"location"
+						"available_satellite"
 					]
 				},
 				"description": "py-satellite-dashboard geocoding api"
@@ -49,20 +35,15 @@
 			"response": []
 		},
 		{
-			"name": "http://127.0.0.1:5000/tle",
+			"name": "Get TLE from cache/db/satnog",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/tle",
-					"protocol": "http",
+					"raw": "{{host_base}}/tle",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host_base}}"
 					],
-					"port": "5000",
 					"path": [
 						"tle"
 					]
@@ -71,22 +52,43 @@
 			"response": []
 		},
 		{
-			"name": "http://127.0.0.1:5000/flight_path",
+			"name": "Get prediction for ISS at UCI",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rxLatLng\": {\n        \"lat\": 33.6405,\n        \"lng\": -117.8443\n    },\n    \"satellite\": \"0 ISS (ZARYA)\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host_base}}/prediction",
+					"host": [
+						"{{host_base}}"
+					],
+					"path": [
+						"prediction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Response",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:5000/flight_path",
-					"protocol": "http",
+					"raw": "{{host_base}}/response",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{host_base}}"
 					],
-					"port": "5000",
 					"path": [
-						"flight_path"
+						"response"
 					]
 				}
 			},
