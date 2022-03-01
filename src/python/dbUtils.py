@@ -9,17 +9,14 @@ def dbCommit():
     dbModel.db.session.commit()
 
 
-def dbWrite(entryArray, **kwargs):
-    if 'force_refresh' in kwargs.keys() and kwargs['force_refresh']:
-        # dbModel.db.drop_all()
-        # dbModel.db.create_all()
-        pass
+def dbWrite(entryArray):
     for entry in entryArray:
         dbModel.db.session.add(entry)
 
     try:
         dbModel.db.session.commit()
     except exc.ProgrammingError:
+        dbModel.db.drop_all()
         dbModel.db.create_all()
         for entry in entryArray:
             dbModel.db.session.add(entry)

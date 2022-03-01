@@ -97,7 +97,7 @@ def writeDB(data):
 
     data = [dbModel.tle_create_row(key, data[key]['tle1'], data[key]['tle2'],
                                    datetime.now()) for key in data.keys()]
-    dbUtils.dbWrite(data, force_refresh=True)
+    dbUtils.dbWrite(data)
     dbUtils.dbClose()
 
 

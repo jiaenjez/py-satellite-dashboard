@@ -51,5 +51,6 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "lodash": "^4.17.21"
-  }
+  },
+  "proxy": "http://127.0.0.1:5000"
 }
